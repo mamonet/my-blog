@@ -1,0 +1,187 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+
+// Get all blog posts and sort by date
+const allPosts = await getCollection('blog');
+const publishedPosts = allPosts
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Get featured posts (latest 3)
+const featuredPosts = publishedPosts.slice(0, 3);
+
+// Calculate reading time
+function calculateReadingTime(content: string) {
+  const wordsPerMinute = 200;
+  const words = content.split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min read`;
+}
+---
+
+<BaseLayout 
+  title="Security Blog - Cryptography, Reverse Engineering & Security Research"
+  description="Deep technical articles about cryptography, secure communication protocols, security vulnerabilities, and reverse engineering."
+>
+  <Header />
+  
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Hero Section -->
+    <section class="text-center mb-16">
+      <h1 class="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
+        Security Research & Analysis
+      </h1>
+      <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8">
+        In-depth technical articles covering cryptography, secure communication protocols,
+        reverse engineering, and security vulnerabilities.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a 
+          href="/blog" 
+          class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition-colors"
+        >
+          Browse All Articles
+        </a>
+        <a 
+          href="/archive" 
+          class="px-6 py-3 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-medium transition-colors"
+        >
+          View Archive
+        </a>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+      <div class="bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg p-6 text-white">
+        <div class="text-4xl font-bold mb-2">{publishedPosts.length}</div>
+        <div class="text-primary-100">Articles Published</div>
+      </div>
+      <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white">
+        <div class="text-4xl font-bold mb-2">
+          {[...new Set(publishedPosts.flatMap(p => p.data.tags))].length}
+        </div>
+        <div class="text-purple-100">Topics Covered</div>
+      </div>
+      <div class="bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg p-6 text-white">
+        <div class="text-4xl font-bold mb-2">
+          {publishedPosts.reduce((acc, post) => {
+            const words = post.body.split(/\s+/).length;
+            return acc + Math.ceil(words / 200);
+          }, 0)}
+        </div>
+        <div class="text-pink-100">Minutes of Content</div>
+      </div>
+    </section>
+
+    <!-- Featured Articles -->
+    {featuredPosts.length > 0 && (
+      <section class="mb-16">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Latest Articles</h2>
+          <a 
+            href="/blog" 
+            class="text-primary-600 dark:text-primary-400 hover:underline font-medium"
+          >
+            View all →
+          </a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredPosts.map((post) => (
+            <ArticleCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              slug={post.slug}
+              tags={post.data.tags}
+              readingTime={calculateReadingTime(post.body)}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Topics Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-8 text-gray-900 dark:text-white text-center">Explore Topics</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Cryptography -->
+        <a
+          href="/blog?tag=cryptography"
+          class="group bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-lg p-6 text-white transition-all"
+        >
+          <div class="text-4xl mb-3">🔐</div>
+          <h3 class="text-xl font-bold mb-2">Cryptography</h3>
+          <p class="text-blue-100 text-sm">Encryption algorithms, secure key management, and cryptographic protocols</p>
+          <div class="mt-4 flex items-center text-sm font-medium">
+            Explore <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Protocols -->
+        <a
+          href="/blog?tag=protocols"
+          class="group bg-gradient-to-br from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 rounded-lg p-6 text-white transition-all"
+        >
+          <div class="text-4xl mb-3">🔗</div>
+          <h3 class="text-xl font-bold mb-2">Protocols</h3>
+          <p class="text-cyan-100 text-sm">TLS/SSL, secure communication, and network protocols</p>
+          <div class="mt-4 flex items-center text-sm font-medium">
+            Explore <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Reverse Engineering -->
+        <a
+          href="/blog?tag=reverse-engineering"
+          class="group bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 rounded-lg p-6 text-white transition-all"
+        >
+          <div class="text-4xl mb-3">🔧</div>
+          <h3 class="text-xl font-bold mb-2">Reverse Engineering</h3>
+          <p class="text-purple-100 text-sm">Binary analysis, DRM bypass, and application decompilation</p>
+          <div class="mt-4 flex items-center text-sm font-medium">
+            Explore <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Vulnerabilities -->
+        <a
+          href="/blog?tag=vulnerabilities"
+          class="group bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 rounded-lg p-6 text-white transition-all"
+        >
+          <div class="text-4xl mb-3">🛡️</div>
+          <h3 class="text-xl font-bold mb-2">Vulnerabilities</h3>
+          <p class="text-red-100 text-sm">Security flaws in networks, applications, and operating systems</p>
+          <div class="mt-4 flex items-center text-sm font-medium">
+            Explore <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Newsletter Section (Optional) -->
+    <section class="bg-gray-100 dark:bg-gray-800 rounded-lg p-8 md:p-12 text-center">
+      <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Stay Updated</h2>
+      <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
+        Subscribe to receive notifications about new security articles, vulnerability disclosures, and technical deep-dives.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <input 
+          type="email" 
+          placeholder="your@email.com" 
+          class="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+        />
+        <button class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition-colors whitespace-nowrap">
+          Subscribe
+        </button>
+      </div>
+      <p class="text-xs text-gray-500 dark:text-gray-500 mt-3">Or subscribe via <a href="/rss.xml" class="text-primary-600 dark:text-primary-400 hover:underline">RSS</a></p>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,77 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  slug: string;
+  tags: string[];
+  readingTime?: string;
+}
+
+const { title, description, pubDate, slug, tags, readingTime } = Astro.props;
+
+const formattedDate = new Date(pubDate).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// Calculate reading time if not provided
+const calculateReadingTime = (text: string) => {
+  const wordsPerMinute = 200;
+  const words = text.split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min read`;
+};
+---
+
+<article class="group bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 transition-all duration-300 hover:shadow-lg overflow-hidden">
+  <a href={`/blog/${slug}`} class="block p-6">
+    <!-- Tags -->
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-3">
+        {tags.slice(0, 3).map((tag) => (
+          <span class="text-xs px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <!-- Title -->
+    <h2 class="text-xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
+      {title}
+    </h2>
+
+    <!-- Description -->
+    <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3 text-sm">
+      {description}
+    </p>
+
+    <!-- Meta Info -->
+    <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500">
+      <div class="flex items-center space-x-4">
+        <time datetime={pubDate.toISOString()} class="flex items-center">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          {formattedDate}
+        </time>
+        {readingTime && (
+          <span class="flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            {readingTime}
+          </span>
+        )}
+      </div>
+      <span class="flex items-center text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform">
+        Read more
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </span>
+    </div>
+  </a>
+</article>

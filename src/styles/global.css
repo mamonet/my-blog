@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold;
+  }
+}
+
+@layer components {
+  /* Code block styling */
+  .prose pre {
+    @apply bg-gray-900 dark:bg-gray-950 rounded-lg p-4 overflow-x-auto;
+  }
+
+  .prose code {
+    @apply font-mono text-sm;
+  }
+
+  .prose :not(pre) > code {
+    @apply bg-gray-100 dark:bg-gray-800 text-primary-600 dark:text-primary-400 px-1.5 py-0.5 rounded;
+  }
+
+  /* Article styling */
+  .prose {
+    @apply max-w-none text-gray-700 dark:text-gray-300;
+  }
+
+  .prose h1 {
+    @apply text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100;
+  }
+
+  .prose h2 {
+    @apply text-3xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100;
+  }
+
+  .prose h3 {
+    @apply text-2xl font-semibold mt-6 mb-3 text-gray-900 dark:text-gray-100;
+  }
+
+  .prose p {
+    @apply mb-4 leading-relaxed;
+  }
+
+  .prose a {
+    @apply text-primary-600 dark:text-primary-400 hover:underline;
+  }
+
+  .prose ul, .prose ol {
+    @apply my-4 ml-6;
+  }
+
+  .prose li {
+    @apply mb-2;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-primary-500 pl-4 italic my-4;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-gray-500;
+  }
+}

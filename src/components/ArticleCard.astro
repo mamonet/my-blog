@@ -25,18 +25,23 @@ const calculateReadingTime = (text: string) => {
 };
 ---
 
-<article class="group bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 transition-all duration-300 hover:shadow-lg overflow-hidden">
-  <a href={`/blog/${slug}`} class="block p-6">
+<article class="article-card group bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 transition-all duration-300 hover:shadow-lg overflow-hidden">
+  <div class="p-6">
     <!-- Tags -->
     {tags.length > 0 && (
       <div class="flex flex-wrap gap-2 mb-3">
         {tags.slice(0, 3).map((tag) => (
-          <span class="text-xs px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full">
+          <a
+            href={`/blog?tag=${tag}`}
+            class="tag-link text-xs px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors"
+          >
             {tag}
-          </span>
+          </a>
         ))}
       </div>
     )}
+
+    <a href={`/blog/${slug}`} class="article-link block">
 
     <!-- Title -->
     <h2 class="text-xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
@@ -73,5 +78,25 @@ const calculateReadingTime = (text: string) => {
         </svg>
       </span>
     </div>
-  </a>
+    </a>
+  </div>
 </article>
+
+<script>
+  // Prevent tag links from triggering article link
+  function setupTagLinks() {
+    const tagLinks = document.querySelectorAll('.tag-link');
+    tagLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    });
+  }
+
+  // Run immediately and after DOM load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupTagLinks);
+  } else {
+    setupTagLinks();
+  }
+</script>

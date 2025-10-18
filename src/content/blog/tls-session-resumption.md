@@ -1,7 +1,7 @@
 ---
 title: "TLS Session Resumption: Session IDs, Session Tickets, and 0-RTT Security"
 description: "Technical analysis of TLS session resumption mechanisms including session IDs, session tickets (RFC 5077), TLS 1.3 PSK resumption, and security implications of 0-RTT data."
-pubDate: 2024-06-03
+pubDate: 2024-10-06
 author: "Mamoun Tarsha-Kurdi"
 tags: ["tls", "protocols", "performance", "security"]
 draft: false

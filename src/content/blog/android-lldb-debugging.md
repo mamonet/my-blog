@@ -1,7 +1,7 @@
 ---
 title: "Android Native Debugging with LLDB: From JNI Analysis to Exploit Development"
 description: "Advanced Android native debugging techniques using LLDB, including remote debugging setup, JNI function analysis, memory inspection, breakpoint strategies, and exploit development workflows for ARM/ARM64 binaries."
-pubDate: 2025-03-14
+pubDate: 2025-01-17
 author: "Mamoun Tarsha-Kurdi"
 tags: ["reverse-engineering", "android", "debugging", "exploitation"]
 draft: false

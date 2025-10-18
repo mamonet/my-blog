@@ -14,23 +14,6 @@ const publishedPosts = allPosts
 // Get unique tags
 const allTags = [...new Set(publishedPosts.flatMap(post => post.data.tags))].sort();
 
-// Get query parameters for filtering
-const urlParams = Astro.url.searchParams;
-const selectedTag = urlParams.get('tag');
-const sortOrder = urlParams.get('sort') || 'latest';
-
-// Filter posts by tag if selected
-let filteredPosts = selectedTag
-  ? publishedPosts.filter(post => post.data.tags.includes(selectedTag))
-  : publishedPosts;
-
-// Sort posts
-if (sortOrder === 'oldest') {
-  filteredPosts = filteredPosts.sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
-} else {
-  filteredPosts = filteredPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-}
-
 // Calculate reading time
 function calculateReadingTime(content: string) {
   const wordsPerMinute = 200;
@@ -38,25 +21,32 @@ function calculateReadingTime(content: string) {
   const minutes = Math.ceil(words / wordsPerMinute);
   return `${minutes} min read`;
 }
+
+// Prepare posts data for client-side filtering
+const postsData = publishedPosts.map(post => ({
+  title: post.data.title,
+  description: post.data.description,
+  pubDate: post.data.pubDate.toISOString(),
+  slug: post.slug,
+  tags: post.data.tags,
+  readingTime: calculateReadingTime(post.body)
+}));
 ---
 
-<BaseLayout 
-  title={selectedTag ? `Articles tagged with "${selectedTag}" - Security Blog` : 'All Articles - Security Blog'}
-  description={selectedTag ? `Browse all security articles tagged with ${selectedTag}` : 'Browse all technical articles about cryptography, security, reverse engineering, and vulnerabilities'}
+<BaseLayout
+  title="All Articles - Security Blog"
+  description="Browse all technical articles about cryptography, security, reverse engineering, and vulnerabilities"
 >
   <Header />
-  
+
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Page Header -->
     <div class="mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-        {selectedTag ? `Articles tagged with "${selectedTag}"` : 'All Articles'}
+      <h1 id="page-title" class="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+        All Articles
       </h1>
-      <p class="text-xl text-gray-600 dark:text-gray-400">
-        {selectedTag 
-          ? `${filteredPosts.length} article${filteredPosts.length !== 1 ? 's' : ''} found`
-          : `Browse all ${publishedPosts.length} articles`
-        }
+      <p id="page-subtitle" class="text-xl text-gray-600 dark:text-gray-400">
+        Browse all {publishedPosts.length} articles
       </p>
     </div>
 
@@ -66,97 +56,275 @@ function calculateReadingTime(content: string) {
       <div class="flex flex-wrap items-center gap-4">
         <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Sort by:</span>
         <div class="flex gap-2">
-          <a
-            href={selectedTag ? `/blog?tag=${selectedTag}&sort=latest` : '/blog?sort=latest'}
-            class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              sortOrder === 'latest'
-                ? 'bg-primary-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
-            }`}
+          <button
+            id="sort-latest"
+            class="sort-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-primary-600 text-white"
+            data-sort="latest"
           >
             Latest
-          </a>
-          <a
-            href={selectedTag ? `/blog?tag=${selectedTag}&sort=oldest` : '/blog?sort=oldest'}
-            class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              sortOrder === 'oldest'
-                ? 'bg-primary-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
-            }`}
+          </button>
+          <button
+            id="sort-oldest"
+            class="sort-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
+            data-sort="oldest"
           >
             Oldest
-          </a>
+          </button>
         </div>
-        {selectedTag && (
-          <a
-            href="/blog"
-            class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
-          >
-            Clear filter ✕
-          </a>
-        )}
+        <button
+          id="clear-filter"
+          class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors hidden"
+        >
+          Clear filter ✕
+        </button>
       </div>
 
       <!-- Tag Filter -->
       <div>
         <span class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 block">Filter by topic:</span>
         <div class="flex flex-wrap gap-2">
-          <a
-            href="/blog"
-            class={`text-sm px-4 py-2 rounded-lg transition-colors ${
-              !selectedTag
-                ? 'bg-primary-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
-            }`}
+          <button
+            class="tag-filter text-sm px-4 py-2 rounded-lg transition-colors bg-primary-600 text-white"
+            data-tag=""
           >
             All Topics
-          </a>
+          </button>
           {allTags.map((tag) => (
-            <a
-              href={`/blog?tag=${tag}`}
-              class={`text-sm px-4 py-2 rounded-lg transition-colors ${
-                selectedTag === tag
-                  ? 'bg-primary-600 text-white'
-                  : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
-              }`}
+            <button
+              class="tag-filter text-sm px-4 py-2 rounded-lg transition-colors bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
+              data-tag={tag}
             >
               {tag}
-            </a>
+            </button>
           ))}
         </div>
       </div>
     </div>
 
     <!-- Articles Grid -->
-    {filteredPosts.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredPosts.map((post) => (
-          <ArticleCard
-            title={post.data.title}
-            description={post.data.description}
-            pubDate={post.data.pubDate}
-            slug={post.slug}
-            tags={post.data.tags}
-            readingTime={calculateReadingTime(post.body)}
-          />
-        ))}
-      </div>
-    ) : (
-      <div class="text-center py-12">
-        <div class="text-6xl mb-4">📝</div>
-        <h2 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">No articles found</h2>
-        <p class="text-gray-600 dark:text-gray-400 mb-6">
-          Try selecting a different tag or check back later for new content.
-        </p>
-        <a
-          href="/blog"
-          class="inline-block px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition-colors"
-        >
-          View all articles
-        </a>
-      </div>
-    )}
+    <div id="articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {publishedPosts.map((post) => (
+        <ArticleCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          slug={post.slug}
+          tags={post.data.tags}
+          readingTime={calculateReadingTime(post.body)}
+        />
+      ))}
+    </div>
+
+    <!-- No Results Message (hidden by default) -->
+    <div id="no-results" class="text-center py-12 hidden">
+      <div class="text-6xl mb-4">📝</div>
+      <h2 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">No articles found</h2>
+      <p class="text-gray-600 dark:text-gray-400 mb-6">
+        Try selecting a different tag or check back later for new content.
+      </p>
+      <button
+        id="clear-filter-bottom"
+        class="inline-block px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition-colors"
+      >
+        View all articles
+      </button>
+    </div>
   </main>
 
   <Footer />
 </BaseLayout>
+
+<script define:vars={{ postsData, allTags }}>
+  // Client-side filtering logic
+  let currentTag = '';
+  let currentSort = 'latest';
+
+  function getURLParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      tag: params.get('tag') || '',
+      sort: params.get('sort') || 'latest'
+    };
+  }
+
+  function updateURL(tag, sort) {
+    const params = new URLSearchParams();
+    if (tag) params.set('tag', tag);
+    if (sort !== 'latest') params.set('sort', sort);
+
+    const newURL = params.toString()
+      ? `${window.location.pathname}?${params.toString()}`
+      : window.location.pathname;
+
+    window.history.pushState({}, '', newURL);
+  }
+
+  function filterAndRenderPosts() {
+    let filtered = [...postsData];
+
+    // Filter by tag
+    if (currentTag) {
+      filtered = filtered.filter(post => post.tags.includes(currentTag));
+    }
+
+    // Sort
+    filtered.sort((a, b) => {
+      const dateA = new Date(a.pubDate).getTime();
+      const dateB = new Date(b.pubDate).getTime();
+      return currentSort === 'latest' ? dateB - dateA : dateA - dateB;
+    });
+
+    // Update UI
+    const container = document.getElementById('articles-container');
+    const noResults = document.getElementById('no-results');
+    const pageTitle = document.getElementById('page-title');
+    const pageSubtitle = document.getElementById('page-subtitle');
+    const clearBtn = document.getElementById('clear-filter');
+
+    if (filtered.length === 0) {
+      container.classList.add('hidden');
+      noResults.classList.remove('hidden');
+    } else {
+      container.classList.remove('hidden');
+      noResults.classList.add('hidden');
+
+      // Render filtered posts
+      container.innerHTML = filtered.map(post => {
+        const formattedDate = new Date(post.pubDate).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        const tagsHTML = post.tags.slice(0, 3).map(tag =>
+          `<a href="/blog?tag=${tag}" class="tag-link text-xs px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors">${tag}</a>`
+        ).join('');
+
+        return `
+          <article class="article-card group bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 transition-all duration-300 hover:shadow-lg overflow-hidden">
+            <div class="p-6">
+              <div class="flex flex-wrap gap-2 mb-3">
+                ${tagsHTML}
+              </div>
+              <a href="/blog/${post.slug}" class="article-link block">
+                <h2 class="text-xl font-bold mb-2 text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
+                  ${post.title}
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3 text-sm">
+                  ${post.description}
+                </p>
+                <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-500">
+                  <div class="flex items-center space-x-4">
+                    <time datetime="${post.pubDate}" class="flex items-center">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                      </svg>
+                      ${formattedDate}
+                    </time>
+                    <span class="flex items-center">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      </svg>
+                      ${post.readingTime}
+                    </span>
+                  </div>
+                  <span class="flex items-center text-primary-600 dark:text-primary-400 group-hover:translate-x-1 transition-transform">
+                    Read more
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </span>
+                </div>
+              </a>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      // Re-attach tag click handlers
+      setupTagLinks();
+    }
+
+    // Update title
+    if (currentTag) {
+      pageTitle.textContent = `Articles tagged with "${currentTag}"`;
+      pageSubtitle.textContent = `${filtered.length} article${filtered.length !== 1 ? 's' : ''} found`;
+      clearBtn.classList.remove('hidden');
+    } else {
+      pageTitle.textContent = 'All Articles';
+      pageSubtitle.textContent = `Browse all ${postsData.length} articles`;
+      clearBtn.classList.add('hidden');
+    }
+
+    // Update tag filter buttons
+    document.querySelectorAll('.tag-filter').forEach(btn => {
+      const btnTag = btn.getAttribute('data-tag');
+      if (btnTag === currentTag) {
+        btn.className = 'tag-filter text-sm px-4 py-2 rounded-lg transition-colors bg-primary-600 text-white';
+      } else {
+        btn.className = 'tag-filter text-sm px-4 py-2 rounded-lg transition-colors bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700';
+      }
+    });
+
+    // Update sort buttons
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+      const btnSort = btn.getAttribute('data-sort');
+      if (btnSort === currentSort) {
+        btn.className = 'sort-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-primary-600 text-white';
+      } else {
+        btn.className = 'sort-btn px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700';
+      }
+    });
+  }
+
+  function setupTagLinks() {
+    document.querySelectorAll('.tag-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const tag = new URL(link.href).searchParams.get('tag');
+        if (tag) {
+          currentTag = tag;
+          updateURL(currentTag, currentSort);
+          filterAndRenderPosts();
+        }
+      });
+    });
+  }
+
+  // Event listeners
+  document.querySelectorAll('.tag-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentTag = btn.getAttribute('data-tag') || '';
+      updateURL(currentTag, currentSort);
+      filterAndRenderPosts();
+    });
+  });
+
+  document.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentSort = btn.getAttribute('data-sort') || 'latest';
+      updateURL(currentTag, currentSort);
+      filterAndRenderPosts();
+    });
+  });
+
+  document.getElementById('clear-filter')?.addEventListener('click', () => {
+    currentTag = '';
+    updateURL('', currentSort);
+    filterAndRenderPosts();
+  });
+
+  document.getElementById('clear-filter-bottom')?.addEventListener('click', () => {
+    currentTag = '';
+    updateURL('', currentSort);
+    filterAndRenderPosts();
+  });
+
+  // Initialize from URL on page load
+  const urlParams = getURLParams();
+  currentTag = urlParams.tag;
+  currentSort = urlParams.sort;
+  filterAndRenderPosts();
+  setupTagLinks();
+</script>

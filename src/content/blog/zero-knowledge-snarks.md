@@ -1,7 +1,7 @@
 ---
 title: "zk-SNARKs: Zero-Knowledge Succinct Non-Interactive Arguments of Knowledge"
 description: "Technical deep dive into zk-SNARK construction, covering arithmetic circuits, quadratic arithmetic programs (QAPs), and the Groth16 proving system used in Zcash and Ethereum."
-pubDate: 2023-12-28
+pubDate: 2025-05-08
 author: "Mamoun Tarsha-Kurdi"
 tags: ["cryptography", "zero-knowledge", "mathematics", "blockchain"]
 draft: false

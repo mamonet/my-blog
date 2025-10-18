@@ -1,7 +1,7 @@
 ---
 title: "Android Native Library Reverse Engineering: ARM Assembly to C++ Reconstruction"
 description: "Advanced techniques for reversing Android native libraries, including ARM/ARM64 disassembly, JNI bridge analysis, C++ name demangling, vtable reconstruction, and automated decompilation workflows."
-pubDate: 2025-05-08
+pubDate: 2025-07-02
 author: "Mamoun Tarsha-Kurdi"
 tags: ["reverse-engineering", "android", "arm", "jni"]
 draft: false

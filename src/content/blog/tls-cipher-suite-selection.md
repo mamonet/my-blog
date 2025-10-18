@@ -1,7 +1,7 @@
 ---
 title: "TLS Cipher Suite Selection: Security Analysis and Configuration Best Practices"
 description: "Comprehensive guide to TLS cipher suite selection, analyzing authentication methods, key exchange algorithms, encryption ciphers, and MAC functions with secure configuration recommendations using GnuTLS."
-pubDate: 2024-07-18
+pubDate: 2025-04-22
 author: "Mamoun Tarsha-Kurdi"
 tags: ["tls", "cryptography", "configuration", "security"]
 draft: false

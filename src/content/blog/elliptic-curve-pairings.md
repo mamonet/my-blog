@@ -1,7 +1,7 @@
 ---
 title: "Elliptic Curve Pairings: Mathematical Foundations and BLS Signature Implementation"
 description: "Comprehensive analysis of bilinear pairings on elliptic curves, covering Weil and Tate pairing mathematics, Miller's algorithm, BLS12-381 curve construction, BLS signature schemes, and pairing-based cryptographic protocols including identity-based encryption."
-pubDate: 2023-09-07
+pubDate: 2024-01-15
 author: "Mamoun Tarsha-Kurdi"
 tags: ["cryptography", "elliptic-curves", "pairings", "bls-signatures"]
 draft: false

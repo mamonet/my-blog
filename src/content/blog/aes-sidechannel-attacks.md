@@ -1,7 +1,7 @@
 ---
 title: "AES Side-Channel Attacks: Cache Timing and Power Analysis Vulnerabilities"
 description: "Practical analysis of side-channel vulnerabilities in AES implementations, including cache-timing attacks, differential power analysis (DPA), and constant-time mitigation techniques."
-pubDate: 2024-01-15
+pubDate: 2023-06-12
 author: "Mamoun Tarsha-Kurdi"
 tags: ["cryptography", "vulnerabilities", "aes", "side-channels"]
 draft: false

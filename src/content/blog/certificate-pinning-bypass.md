@@ -1,7 +1,7 @@
 ---
 title: "TLS Certificate Pinning: Implementation and Bypass Techniques"
 description: "Analysis of certificate pinning mechanisms in mobile applications, common implementation vulnerabilities, and bypass techniques using Frida, SSL proxies, and custom trust stores."
-pubDate: 2024-04-10
+pubDate: 2024-12-09
 author: "Mamoun Tarsha-Kurdi"
 tags: ["tls", "mobile-security", "certificates", "reverse-engineering"]
 draft: false

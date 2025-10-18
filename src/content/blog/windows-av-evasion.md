@@ -1,7 +1,7 @@
 ---
 title: "Windows Anti-Virus Evasion: Bypassing EDR, AMSI, and Behavioral Detection"
 description: "Advanced techniques for evading modern endpoint security solutions including EDR bypass methods, AMSI circumvention, process injection without detection, and behavioral analysis evasion strategies."
-pubDate: 2025-01-17
+pubDate: 2024-04-10
 author: "Mamoun Tarsha-Kurdi"
 tags: ["reverse-engineering", "windows", "evasion", "malware"]
 draft: false

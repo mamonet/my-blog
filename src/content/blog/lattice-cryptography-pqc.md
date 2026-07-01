@@ -2,7 +2,7 @@
 title: "Lattice-Based Cryptography: Mathematical Foundations and CRYSTALS-Kyber Deep Dive"
 description: "Comprehensive analysis of lattice-based post-quantum cryptography, covering SVP/CVP hardness assumptions, Ring-LWE security proofs, CRYSTALS-Kyber implementation details, side-channel resistance, and cryptanalytic attacks on structured lattices."
 pubDate: 2024-08-29
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["cryptography", "post-quantum", "mathematics", "lattices"]
 draft: false
 ---

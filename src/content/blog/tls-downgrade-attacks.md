@@ -2,7 +2,7 @@
 title: "TLS Downgrade Attacks: POODLE, FREAK, and Logjam Analysis"
 description: "Technical analysis of protocol downgrade attacks targeting TLS/SSL, including POODLE, FREAK, Logjam, and DROWN vulnerabilities with mitigation strategies."
 pubDate: 2023-07-25
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["tls", "vulnerabilities", "protocols", "security"]
 draft: false
 ---

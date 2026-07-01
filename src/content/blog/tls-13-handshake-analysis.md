@@ -2,7 +2,7 @@
 title: "TLS 1.3 Handshake Protocol: Technical Analysis and Security Improvements"
 description: "Detailed examination of TLS 1.3 handshake protocol changes, 0-RTT data transmission, forward secrecy guarantees, and cryptographic improvements over TLS 1.2."
 pubDate: 2024-02-05
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["tls", "protocols", "cryptography", "security"]
 draft: false
 ---

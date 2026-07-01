@@ -2,7 +2,7 @@
 title: "Windows Kernel Debugging: From Ring 0 Analysis to Driver Exploitation"
 description: "Comprehensive guide to Windows kernel debugging using WinDbg, analyzing kernel drivers, understanding IRQL levels, debugging blue screens, and developing kernel exploits for privilege escalation vulnerabilities."
 pubDate: 2024-07-18
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["reverse-engineering", "windows", "kernel", "debugging"]
 draft: false
 ---

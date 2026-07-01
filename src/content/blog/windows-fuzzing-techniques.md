@@ -2,7 +2,7 @@
 title: "Windows Application Fuzzing: AFL, WinAFL, and Coverage-Guided Techniques"
 description: "Comprehensive guide to fuzzing Windows applications using WinAFL, DynamoRIO instrumentation, and coverage-guided mutation strategies for discovering memory corruption vulnerabilities and zero-day exploits."
 pubDate: 2023-05-18
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["reverse-engineering", "windows", "fuzzing", "vulnerabilities"]
 draft: false
 ---

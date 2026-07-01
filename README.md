@@ -104,7 +104,7 @@ title: "Technical Article Title"
 description: "Clear, concise summary of research findings"
 pubDate: 2024-01-15
 updatedDate: 2024-01-20
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["cryptography", "reverse-engineering", "security"]
 draft: false
 ---

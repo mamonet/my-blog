@@ -9,7 +9,7 @@ export const GET: APIRoute = async (context) => {
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   return rss({
-    title: 'Security Blog - Mamoun Tarsha-Kurdi',
+    title: 'Security Blog - Mamone Tarsia',
     description: 'Deep technical articles about cryptography, secure communication protocols, security vulnerabilities, and reverse engineering.',
     site: context.site || 'https://yourdomain.com',
     items: publishedPosts.map((post) => ({

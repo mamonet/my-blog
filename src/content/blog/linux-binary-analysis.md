@@ -2,7 +2,7 @@
 title: "Linux Binary Analysis: ELF Format, GOT/PLT Hijacking, and Return-Oriented Programming"
 description: "Comprehensive guide to reversing Linux ELF binaries, analyzing GOT/PLT relocation mechanisms, exploiting buffer overflows with ROP chains, and bypassing modern protections like NX, ASLR, and stack canaries."
 pubDate: 2024-05-27
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["reverse-engineering", "linux", "exploits", "binary-analysis"]
 draft: false
 ---

@@ -2,7 +2,7 @@
 title: "Android Fuzzing: AFL++, Frida, and Coverage-Guided Native Library Testing"
 description: "Comprehensive guide to fuzzing Android applications and native libraries using AFL++, libFuzzer, Frida-based in-memory fuzzing, and coverage instrumentation for discovering memory corruption vulnerabilities in ARM/ARM64 code."
 pubDate: 2024-09-11
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["reverse-engineering", "android", "fuzzing", "vulnerabilities"]
 draft: false
 ---

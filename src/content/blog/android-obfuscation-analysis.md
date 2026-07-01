@@ -2,7 +2,7 @@
 title: "Android Obfuscation Analysis: ProGuard, R8, and Native Code Protection"
 description: "Techniques for analyzing obfuscated Android applications including ProGuard/R8 deobfuscation, control flow flattening reversal, string decryption, and native library unpacking."
 pubDate: 2025-02-25
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["reverse-engineering", "android", "obfuscation", "deobfuscation"]
 draft: false
 ---

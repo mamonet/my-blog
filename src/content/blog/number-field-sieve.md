@@ -2,7 +2,7 @@
 title: "General Number Field Sieve: Mathematical Foundations and RSA-2048 Threat Analysis"
 description: "Comprehensive analysis of the General Number Field Sieve (GNFS) algorithm for integer factorization, covering polynomial selection, lattice sieving, linear algebra over GF(2), and computational complexity estimates for breaking RSA-2048, RSA-3072, and RSA-4096."
 pubDate: 2025-03-14
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["cryptography", "mathematics", "rsa", "algorithms"]
 draft: false
 ---

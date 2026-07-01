@@ -2,7 +2,7 @@
 title: "Cryptographic Hash Function Collisions: From MD5 to SHA-3 Security Analysis"
 description: "Comprehensive analysis of collision resistance in cryptographic hash functions, examining practical attacks on MD5 and SHA-1, and security margins in modern SHA-2 and SHA-3 families."
 pubDate: 2023-12-28
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["cryptography", "hash-functions", "vulnerabilities", "mathematics"]
 draft: false
 ---

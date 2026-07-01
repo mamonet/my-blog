@@ -2,7 +2,7 @@
 title: "Linux Rootkit Analysis: Kernel Module Backdoors, Syscall Hooking, and Detection Techniques"
 description: "In-depth analysis of Linux rootkit internals including LKM-based backdoors, syscall table hooking, /proc filesystem hiding, network traffic concealment, and detection methods using kernel integrity checking."
 pubDate: 2023-09-07
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["reverse-engineering", "linux", "malware", "kernel"]
 draft: false
 ---

@@ -2,7 +2,7 @@
 title: "Reversing Windows DRM: VMProtect Obfuscation and License Validation Bypass"
 description: "Technical analysis of commercial DRM systems in Windows applications, examining VMProtect code virtualization, license validation mechanisms, and reverse engineering techniques using IDA Pro and x64dbg."
 pubDate: 2025-06-16
-author: "Mamoun Tarsha-Kurdi"
+author: "Mamone Tarsia"
 tags: ["reverse-engineering", "windows", "drm", "obfuscation"]
 draft: false
 ---
